@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const produtosRoutes = require("./routes/produtos");
 const entradasRoutes = require("./routes/entradas");
 const saidasRoutes = require("./routes/saidas");
+const vendasRoutes = require("./routes/vendas");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/produtos", produtosRoutes);
 app.use("/api/entradas", entradasRoutes);
 app.use("/api/saidas", saidasRoutes);
+app.use("/api/vendas", vendasRoutes);
 
 const frontendPath = process.env.FRONTEND_PATH || path.join(__dirname, "..", "frontend");
 app.use(express.static(frontendPath));

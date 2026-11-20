@@ -50,8 +50,8 @@ router.post("/", async (req, res, next) => {
       });
     }
 
-    await client.query(
-      `INSERT INTO vendas (produto_id, quantidade, valor_total, observacao, vendedor) VALUES ($1, $2, $3, $4, $5)`,
+    const insertVenda = await client.query(
+      `INSERT INTO vendas (produto_id, quantidade, valor_total, observacao, vendedor) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
       [Number(produto_id), Number(quantidade), Number(valor_total), observacao || null, vendedor || null]
     );
 
@@ -61,7 +61,7 @@ router.post("/", async (req, res, next) => {
     );
 
     await client.query("COMMIT");
-    return res.status(201).json({ mensagem: "Venda registrada com sucesso!" });
+    return res.status(201).json({ mensagem: "Venda registrada com sucesso!", id: insertVenda.rows[0].id });
   } catch (error) {
     await client.query("ROLLBACK");
     return next(error);
